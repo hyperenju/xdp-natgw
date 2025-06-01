@@ -35,6 +35,9 @@ A lightweight symmetric NAT implementation using eBPF/XDP for packet processing 
    make
    ```
 
+### Get started in EC2 instance
+See [ec2-ena-example/readme.md](ec2-ena-example/readme.md) for detailed instructions.
+
 ## Configuration
 
 Edit `config.json` to match your network setup:
