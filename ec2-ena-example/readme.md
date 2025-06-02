@@ -11,7 +11,8 @@ This directory provides configurations and scripts to run XDP-based NAT gateway 
 
 ### Installed Software
 - clang 20.1.0 [Releases - llvm/llvm-project](https://github.com/llvm/llvm-project/releases)
-- `dnf install python3 jq bpftool git make`
+- yq
+- `dnf install python3 bpftool git make`
 
 ## Installation (needs to be done as root)
 ### 1. Apply ENA-specific configurations
@@ -19,10 +20,10 @@ This directory provides configurations and scripts to run XDP-based NAT gateway 
 ./ec2-ena-example/setup.sh <network_interface>
 # Example: ./ec2-ena-example/setup.sh ens5
 ```
-### 2. modify config.json
-```
-cp config.json.example config.json
-vim config.json
+### 2. modify config.yaml
+```bash
+cp config-single.yaml config.yaml
+vim config.yaml
 ```
 
 ### 3. Build and run
