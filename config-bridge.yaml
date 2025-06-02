@@ -1,0 +1,12 @@
+# Bridge - for separate NIC for WAN/LAN
+public_ip: "100.100.100.162"  # WAN Address
+
+interfaces:
+  # WAN interface - handles return packets from internet
+  - interface: "ens5"
+
+  # LAN interface - handles outbound packets from clients
+  - interface: "ens6"
+    internal:
+      subnet: "10.0.0.0"      # Internal network subnet
+      mask: "255.255.255.0"
