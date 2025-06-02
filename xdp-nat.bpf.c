@@ -55,6 +55,7 @@ struct {
     __type(key, struct nat_session_key);
     __type(value, struct nat_session_value);
     __uint(max_entries, MAX_ENTRIES);
+    __uint(pinning, LIBBPF_PIN_BY_NAME);
 } nat_sessions SEC(".maps");
 
 struct {
@@ -62,6 +63,7 @@ struct {
     __type(key, struct port_lookup_key);
     __type(value, struct port_lookup_value);
     __uint(max_entries, MAX_ENTRIES);
+    __uint(pinning, LIBBPF_PIN_BY_NAME);
 } port_lookup SEC(".maps");
 
 struct {
@@ -69,6 +71,7 @@ struct {
     __type(key, __u32);
     __type(value, __u32);
     __uint(max_entries, 3); // TCP(0), UDP(1), ICMP(2)
+    __uint(pinning, LIBBPF_PIN_BY_NAME);
 } port_counters SEC(".maps");
 
 #define MAX_CHECKSUM_BYTES 1500
@@ -249,6 +252,8 @@ static int fib_lookup_and_forward(struct xdp_md *ctx, struct ethhdr *eth,
     case BPF_FIB_LKUP_RET_SUCCESS:
         __builtin_memcpy(eth->h_dest, fib_params.dmac, ETH_ALEN);
         __builtin_memcpy(eth->h_source, fib_params.smac, ETH_ALEN);
+        if (fib_params.ifindex != ctx->ingress_ifindex)
+            return bpf_redirect(fib_params.ifindex, 0);
         return XDP_TX;
 
     case BPF_FIB_LKUP_RET_BLACKHOLE:
